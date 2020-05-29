@@ -1,6 +1,6 @@
 %Photometry analysis for SCN VIP sleep states- collating data over multiple mice: AV 18th April 2018
-stage = 'REM';
-stage2 = 'WAKE';
+stage = 'WAKE';
+stage2 = 'NREM';
 Acq_rate = 1; % user input (Hz): choose time resolution of final figure
 pre_state_change_time = 60; % user input (seconds): choose time to display (and average) before a state change
 post_state_change_time = 60; % user input (seconds): choose time to display after a state change
@@ -12,15 +12,22 @@ pre_state_time = pre_state_change_time*Acq_rate; %no longer in seconds, now in d
 post_state_time = post_state_change_time*Acq_rate; % in data points
 timeValuePre = timeValuePre*Acq_rate; % in data points
 timeValuePost = timeValuePost*Acq_rate;% in data points
-cmin = -21; %value for yaxis (minimum) heatmap
-cmax = 15; %value for yaxis (minimum) heatmap
-ymin = -3.5;
-ymax = 2.5;
+cmin = -4; %value for yaxis (minimum) heatmap
+cmax = 6; %value for yaxis (minimum) heatmap
+ymin = -1;
+ymax = 2;
 
 %Select folder
 folder_name = strcat(pwd,'\results\');
 
 cd(folder_name)
+
+current_folder = pwd;
+if ~exist('all_mice_averages', 'dir')
+    mkdir('all_mice_averages')
+end
+
+export_folder = strcat(current_folder,  '\all_mice_averages\');
 
 names = dir(['vip*morning*_',stage,'to', stage2,'*.mat']);
 filename =string;
@@ -118,7 +125,7 @@ title(['Heatmap of GCaMP6s signal at ' condCondition ' in SCN^{VIP} neurons']);
 ylabel('Mouse')
 xlabel('time around a state change (seconds)')
 hold();
-saveas(gcf,strcat(folder_name, condCondition,'_all trials heatmap.png'));
+saveas(gcf,strcat(export_folder, condCondition,'_all trials heatmap.png'));
 
 y_stateLine2 = [min(trialsMatrix(:)) max(trialsMatrix(:))];
 x_axis = [x(1):1:x(2)];
@@ -134,7 +141,7 @@ title(['GCaMP6s signal at ' condCondition ' in SCN^{VIP} neurons']);
 ylabel('\deltaF/F')
 xlabel('time around a state change (seconds)')
 hold;
-saveas(gcf,strcat(folder_name, condCondition,'_all trials.png'));
+saveas(gcf,strcat(export_folder, condCondition,'_all trials.png'));
 
 figure(3)
 hold;
@@ -151,7 +158,7 @@ xl = str2double(xl);
 xl = xl/Acq_rate;
 xticklabels({xl});
 hold;
-saveas(gcf,strcat(folder_name, condCondition,'_all trials avg.png'));
+saveas(gcf,strcat(export_folder, condCondition,'_all trials avg.png'));
 
 figure(4)
 hold;
@@ -162,7 +169,7 @@ title(['Mean GCaMP6s signal at ' condCondition ' in SCN^{VIP} neurons for each m
 ylabel('\deltaF/F')
 xlabel('time around a state change (seconds)')
 hold;
-saveas(gcf,strcat(folder_name, condCondition,'_all mouse avgs.png'));
+saveas(gcf,strcat(export_folder, condCondition,'_all mouse avgs.png'));
 
 figure(5)
 hold;
@@ -179,7 +186,7 @@ xl = str2double(xl);
 xl = xl/Acq_rate;
 xticklabels({xl});
 hold;
-saveas(gcf,strcat(folder_name, condCondition,'_avg of avgs.png'));
+saveas(gcf,strcat(export_folder, condCondition,'_avg of avgs.png'));
 
 y_stateLine1 = [1,minTrialNums*numMice];
 minTicks = (minTrialNums:minTrialNums:minTrialNums*numMice);
@@ -213,7 +220,7 @@ title(['Heatmap of GCaMP6s signal at ' condCondition ' in SCN^{VIP} neurons']);
 ylabel('Mouse')
 xlabel('time around a state change (seconds)')
 hold();
-saveas(gcf,strcat(folder_name, condCondition,'_MIN trials heatmap.png'));
+saveas(gcf,strcat(export_folder, condCondition,'_MIN trials heatmap.png'));
 
 figure(7)
 hold;
@@ -231,4 +238,4 @@ xl = str2double(xl);
 xl = xl/Acq_rate;
 xticklabels({xl});
 hold;
-saveas(gcf,strcat(folder_name, condCondition,'_MIN trials avg.png'));
+saveas(gcf,strcat(export_folder, condCondition,'_MIN trials avg.png'));
