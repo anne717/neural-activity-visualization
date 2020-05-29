@@ -11,7 +11,7 @@ Analyse nerve cell population recordings from mice and create figures that clear
 Download repository and make sure scripts in **functions** folder are on your MATLAB path. Your data (see **examples** folder for example files to work with) should be in the working directory prior to running the below scripts.
 
 ### segmentData
-For each mouse (data from each mouse is saved in a searate raw data file), this script opens the raw datafile and cleans the data to remove noise and drift. It then segments the data at transition points between sleep-wake states and saves this segmented data as a matrix in a new datafile in the 'results' folder (made by the script).
+For each mouse (data from each mouse is saved in a separate raw data file), this script opens the raw datafile and cleans the data to remove noise and drift. It then segments the data at transition points between sleep-wake states and saves this segmented data as a matrix in a new datafile in the 'results' folder (made by the script).
 
 This script takes as its input **.mat** files containing structs for synchronized time-series information. This includes:
 - neural activity (Calcium)
